@@ -56,6 +56,7 @@
     attemptedCount: document.getElementById('attemptedCount'),
     reviewFilters: document.getElementById('reviewFilters'),
     reviewList: document.getElementById('reviewList'),
+    controlsBar: document.querySelector('.controls--bottom'),
   };
 
   initializeState();
@@ -246,8 +247,31 @@
     renderNavigator();
     renderReviewPanel();
     updateFilterButtons();
+    highlightControlsOnScroll();
   }
 
+  function highlightControlsOnScroll() {
+    const navigator = dom.navigatorGrid;
+    const controls = dom.controlsBar;
+    if (!navigator || !controls) return;
+
+    const threshold = navigator.getBoundingClientRect().bottom + 40;
+    const shouldHighlight = threshold < window.innerHeight;
+
+    controls.classList.toggle('visible', shouldHighlight);
+  }
+
+  window.addEventListener('scroll', () => {
+    if (isQuizActive()) {
+      highlightControlsOnScroll();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (isQuizActive()) {
+      highlightControlsOnScroll();
+    }
+  });
+}
   function renderStats() {
     const chapter = getActiveChapter();
     const chapterState = state.chapters[chapter.id];
