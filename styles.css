@@ -357,6 +357,31 @@ h1 {
   justify-content: flex-end;
 }
 
+.controls__bottom {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.controls__bottom .question-index {
+  margin: 0;
+  order: 1;
+}
+
+@media (max-width: 840px) {
+  .controls__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .controls__buttons {
+    justify-content: flex-start;
+  }
+}
+
 .btn {
   border: 1px solid transparent;
   border-radius: 11px;
