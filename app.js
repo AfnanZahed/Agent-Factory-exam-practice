@@ -14,6 +14,7 @@
     activeQuestionIndex: 0,
     reviewFilter: 'all',
     chapters: {},
+    view: 'landing',
   };
 
   const dom = {
@@ -22,7 +23,10 @@
     answeredStat: document.getElementById('answeredStat'),
     completedStat: document.getElementById('completedStat'),
 
-    chapterTabs: document.getElementById('chapterTabs'),
+    landingView: document.getElementById('landingView'),
+    chapterCardsGrid: document.getElementById('chapterCardsGrid'),
+    quizView: document.getElementById('quizView'),
+    backToLandingBtn: document.getElementById('backToLandingBtn'),
 
     chapterProgressText: document.getElementById('chapterProgressText'),
     chapterSubmissionState: document.getElementById('chapterSubmissionState'),
@@ -78,6 +82,10 @@
 
       if (persisted.reviewFilter && ['all', 'incorrect', 'unanswered'].includes(persisted.reviewFilter)) {
         state.reviewFilter = persisted.reviewFilter;
+      }
+
+      if (typeof persisted.view === 'string' && ['landing', 'quiz'].includes(persisted.view)) {
+        state.view = persisted.view;
       }
 
       if (persisted.chapters && typeof persisted.chapters === 'object') {
@@ -159,6 +167,13 @@
       updateFilterButtons();
     });
 
+    dom.backToLandingBtn.addEventListener('click', () => {
+      if (state.view === 'landing') return;
+      state.view = 'landing';
+      saveState();
+      render();
+    });
+
     window.addEventListener('keydown', handleGlobalKeydown);
   }
 
@@ -219,7 +234,13 @@
     clampQuestionIndex();
 
     renderStats();
-    renderChapterTabs();
+    renderLandingCards();
+    updateViewVisibility();
+
+    if (!isQuizActive()) {
+      return;
+    }
+
     renderControls();
     renderQuestionCard();
     renderNavigator();
@@ -239,39 +260,58 @@
     dom.completedStat.textContent = `${submittedChapters} / ${data.chapters.length}`;
   }
 
-  function renderChapterTabs() {
-    dom.chapterTabs.innerHTML = '';
+  function renderLandingCards() {
+    if (!dom.chapterCardsGrid) return;
+    dom.chapterCardsGrid.innerHTML = '';
 
+    const fragment = document.createDocumentFragment();
     data.chapters.forEach((chapter) => {
       const chapterState = state.chapters[chapter.id];
       const answered = countAnswered(chapterState.answers);
+      const statusText = chapterState.submitted ? 'Submitted' : 'Ready to start';
+      const statusClass = chapterState.submitted ? ' is-submitted' : '';
 
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `chapter-tab${chapter.id === state.activeChapterId ? ' is-active' : ''}`;
-      btn.setAttribute('role', 'tab');
-      btn.setAttribute('aria-selected', chapter.id === state.activeChapterId ? 'true' : 'false');
-      btn.setAttribute('aria-controls', 'questionTitle');
-
-      const statusText = chapterState.submitted ? 'Submitted' : 'In progress';
-      const statusClass = chapterState.submitted ? 'is-submitted' : '';
-
-      btn.innerHTML = `
-        <p class="chapter-tab__title">Chapter ${chapter.number}</p>
-        <p class="chapter-tab__meta">${chapter.questionCount} Questions • ${answered}/${chapter.questionCount} answered</p>
-        <span class="chapter-tab__status ${statusClass}">${statusText}</span>
+      const card = document.createElement('article');
+      card.className = `chapter-card${chapter.id === state.activeChapterId ? ' is-active' : ''}`;
+      card.setAttribute('role', 'listitem');
+      card.innerHTML = `
+        <div class="chapter-card__body">
+          <p class="chapter-card__number">Chapter ${chapter.number}</p>
+          <h3 class="chapter-card__title">${chapter.shortTitle || chapter.title}</h3>
+          <p class="chapter-card__meta">${chapter.questionCount} Questions • ${answered}/${chapter.questionCount} answered</p>
+          <p class="chapter-card__status${statusClass}">${statusText}</p>
+        </div>
+        <div class="chapter-card__actions">
+          <button class="btn btn--primary chapter-card__start" type="button">Start Quiz</button>
+        </div>
       `;
 
-      btn.addEventListener('click', () => {
-        state.activeChapterId = chapter.id;
-        state.activeQuestionIndex = 0;
-        state.reviewFilter = 'all';
-        saveState();
-        render();
-      });
+      const startBtn = card.querySelector('.chapter-card__start');
+      startBtn?.addEventListener('click', () => handleStartQuiz(chapter.id));
 
-      dom.chapterTabs.appendChild(btn);
+      fragment.appendChild(card);
     });
+
+    dom.chapterCardsGrid.appendChild(fragment);
+  }
+
+  function handleStartQuiz(chapterId) {
+    state.activeChapterId = chapterId;
+    state.activeQuestionIndex = 0;
+    state.reviewFilter = 'all';
+    state.view = 'quiz';
+    saveState();
+    render();
+  }
+
+  function isQuizActive() {
+    return state.view === 'quiz';
+  }
+
+  function updateViewVisibility() {
+    const quizActive = isQuizActive();
+    dom.quizView.classList.toggle('view-hidden', !quizActive);
+    dom.landingView.classList.toggle('view-hidden', quizActive);
   }
 
   function renderControls() {
