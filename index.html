@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General Agents Foundations Exam</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb bg-orb--one" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb--two" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <header class="panel hero" aria-labelledby="appTitle">
+        <div class="hero__copy">
+          <p class="eyebrow">
+            The creator first gave the exams available here and then prepared this practice set in the same pattern and real exam-like questions.
+            <a href="https://www.linkedin.com/posts/afnan-zahed_%F0%9D%9F%97%F0%9D%9F%96%F0%9D%9F%92%F0%9D%9F%94-proud-to-share-that-i-ugcPost-7433499080762413056-t87T?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEwH5UgBCICaoZu6nOOz89lEpOB2-31Y2HM" target="_blank" rel="noreferrer">View the LinkedIn post</a>.
+          </p>
+          <h1 id="appTitle">Agent Factory Exam Practice</h1>
+          <p class="subtitle">
+            One premium interface for all chapter practice exams. Answer freely, then reveal score,
+            correct answers, and rationales after chapter submission.
+          </p>
+        </div>
+
+        <section class="hero__stats" aria-label="Exam overview stats">
+          <article class="stat-card">
+            <p class="stat-card__label">Total Questions</p>
+            <p class="stat-card__value" id="totalQuestionsStat">0</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-card__label">Current Chapter</p>
+            <p class="stat-card__value" id="currentChapterStat">-</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-card__label">Answered (Chapter)</p>
+            <p class="stat-card__value" id="answeredStat">0 / 0</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-card__label">Chapters Submitted</p>
+            <p class="stat-card__value" id="completedStat">0 / 3</p>
+          </article>
+        </section>
+      </header>
+
+      <section class="panel chapter-panel" aria-label="Chapter selector">
+        <h2 class="section-title">Choose Chapter</h2>
+        <div id="chapterTabs" class="chapter-tabs" role="tablist" aria-label="Exam chapters"></div>
+      </section>
+
+      <section class="panel controls sticky-controls" aria-label="Progress and controls">
+        <div class="controls__progress">
+          <div class="progress-labels">
+            <p id="chapterProgressText">Progress: 0%</p>
+            <p id="chapterSubmissionState">Not submitted</p>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="chapterProgressBar">
+            <div id="chapterProgressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <p class="question-index" id="questionIndexText">Q 1 of 1</p>
+
+        <div class="controls__buttons">
+          <button id="prevQuestionBtn" class="btn btn--ghost" type="button">Previous</button>
+          <button id="nextQuestionBtn" class="btn btn--ghost" type="button">Next</button>
+          <button id="submitChapterBtn" class="btn btn--primary" type="button">Submit Chapter</button>
+          <button id="resetChapterBtn" class="btn btn--danger" type="button">Reset Chapter</button>
+        </div>
+      </section>
+
+      <section class="content-grid" aria-label="Question workspace">
+        <article class="panel question-card" aria-live="polite">
+          <header class="question-card__header">
+            <h2 id="questionTitle">Question</h2>
+          </header>
+
+          <p id="questionStem" class="question-stem"></p>
+
+          <div id="optionsList" class="options-list" role="radiogroup" aria-labelledby="questionTitle"></div>
+
+          <p id="questionFeedback" class="question-feedback" hidden></p>
+          <div id="questionRationale" class="question-rationale" hidden></div>
+        </article>
+
+        <aside class="panel navigator" aria-label="Question navigator">
+          <h2 class="section-title">Question Navigator</h2>
+          <p class="navigator-help">
+            Labels: <span class="legend-chip">A</span> Answered,
+            <span class="legend-chip">U</span> Unanswered,
+            <span class="legend-chip">C</span> Correct,
+            <span class="legend-chip">X</span> Incorrect.
+          </p>
+          <div id="navigatorGrid" class="navigator-grid"></div>
+        </aside>
+      </section>
+
+      <section id="reviewPanel" class="panel review-panel" hidden aria-live="polite">
+        <header class="review-panel__header">
+          <h2 class="section-title">Post-Submit Review</h2>
+          <p class="review-subtitle">Correctness and rationales are shown only after chapter submission.</p>
+        </header>
+
+        <div class="review-metrics" aria-label="Score summary">
+          <article class="metric-card">
+            <p class="metric-label">Score</p>
+            <p class="metric-value" id="scoreValue">0 / 0</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">Percent</p>
+            <p class="metric-value" id="percentValue">0%</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">Correct</p>
+            <p class="metric-value" id="correctCount">0</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">Incorrect</p>
+            <p class="metric-value" id="incorrectCount">0</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">Unanswered</p>
+            <p class="metric-value" id="unansweredCount">0</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">Attempted</p>
+            <p class="metric-value" id="attemptedCount">0</p>
+          </article>
+        </div>
+
+        <div id="reviewFilters" class="review-filters" role="tablist" aria-label="Review filters">
+          <button type="button" class="filter-btn is-active" data-filter="all">All</button>
+          <button type="button" class="filter-btn" data-filter="incorrect">Incorrect</button>
+          <button type="button" class="filter-btn" data-filter="unanswered">Unanswered</button>
+        </div>
+
+        <div id="reviewList" class="review-list"></div>
+      </section>
+    </main>
+
+    <script src="./exam-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

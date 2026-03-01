@@ -1,0 +1,236 @@
+Exam: General Agents Fundamentals Part 1
+Questions Left: 21
+A consulting firm builds Digital FTEs for three different clients. Each client uses a different AI platform: one uses Claude, another uses GPT, and the third uses Gemini. Without standards, the firm would need to rebuild each agent from scratch per platform. Which combination of standards addresses their portability challenge?
+
+Platform-specific SDKs with a custom translation layer mediating between them at runtime.
+
+CLAUDE.md for context, proprietary APIs for each platform, and custom integrations tailored per client.
+
+A single monolithic configuration file designed to work identically across all three platforms without modification.
+
+MCP for tool connectivity, AGENTS.md for behavioral rules, and Agent Skills for expertise — all platform-independent.
+
+Questions Left: 20
+A freelance developer spends three months mastering Claude Code — writing CLAUDE.md files, building Skills in .claude/skills/, configuring MCP servers, and using hooks. A new client requires all work done in OpenAI's Codex CLI. The developer worries she'll need to "start over." How much of her expertise transfers to Codex?
+
+Almost nothing transfers — Claude Code and Codex use fundamentally different architectures, requiring the developer to learn entirely new concepts and workflow patterns from scratch.
+
+Most transfers directly — project instructions become AGENTS.md, skills move to .agents/skills/, MCP servers work unchanged, and hooks concepts apply. Only directory paths and minor config differ.
+
+Only MCP servers transfer because they follow the open standard governed by AAIF. Skills, project instructions, and hooks are all proprietary to Claude Code with no Codex equivalents.
+
+Everything transfers automatically with zero changes — the Agentic AI Foundation ensures that files from .claude/ work identically when copied to .agents/ without any modification needed.
+
+Questions Left: 19
+A marketing team uses Claude Cowork with Connectors to pull data from Google Sheets and Slack. Their engineering team uses Claude Code with custom MCP servers for the same data sources. What is the relationship between MCP and Connectors?
+
+MCP and Connectors use entirely different protocols designed for different user audiences and skill levels.
+
+Connectors replace MCP as a newer, improved technology that makes custom MCP servers obsolete.
+
+Connectors are pre-packaged MCP servers — same protocol, no coding required. They extend MCP's reach to non-technical users by handling server setup and maintenance.
+
+Connectors are functionally slower than custom MCP servers because the pre-built abstraction layer adds significant processing latency.
+
+Questions Left: 18
+A developer notices that her AI assistant gives excellent advice at the start of a conversation but produces increasingly irrelevant suggestions after 30 minutes of coding together. What concept relationship explains this degradation?
+
+Statelessness causes the degradation — the AI literally forgets earlier instructions with each new message it processes.
+
+Context window limits require context engineering — as conversation grows, the limited window fills with earlier content, diluting attention to recent, relevant information.
+
+Probabilistic output causes random quality variation that happens to correlate with conversation length by coincidence.
+
+The AI model becomes fatigued after processing too many tokens, reducing its reasoning quality over extended sessions.
+
+Questions Left: 17
+A developer works with Claude Code on Monday and establishes several project conventions. On Tuesday, she starts a new session. Claude has no knowledge of Monday's conventions and generates code violating all of them. What relationship between concepts explains this, and what is the correct mitigation?
+
+Statelessness requires CLAUDE.md — the AI has no inter-session memory. CLAUDE.md provides persistent context that auto-loads at every session start, compensating for statelessness.
+
+Context rot caused Tuesday's problems — Monday's conventions degraded in quality overnight as the model's context cache expired.
+
+Using \-continue to resume Monday's session is the correct solution, since it preserves the full conversation history indefinitely.
+
+Claude's training data doesn't include the project's specific conventions, so it would need fine-tuning to learn them.
+
+Questions Left: 16
+A flight school requires all student pilots to complete a pre-flight checklist before every takeoff. Initially, the instructor verbally reminds each student. After incidents where students forgot, the school installs a physical interlock — the engine won't start without a completed checklist card inserted into a slot. What AI pattern does the interlock represent vs the verbal reminder?
+
+Shadow mode (interlock observes before allowing action) vs direct deployment (verbal reminder trusts immediate compliance).
+
+Skills (the checklist encodes procedures) vs subagents (the instructor is a delegated specialist).
+
+Hooks (guaranteed execution via mechanical enforcement) vs prompting (hopeful compliance via verbal instruction).
+
+Context engineering (the checklist card persists across flights) vs CLAUDE.md (the verbal reminder resets each session).
+
+Questions Left: 15
+A developer creates a skill for code review. The description reads: "A helpful skill for development tasks." The skill never activates automatically — the developer must always invoke it by name. What is wrong with the description?
+
+The SKILL.md file has a YAML syntax error in the metadata header that prevents the agent from parsing it.
+
+It lacks specificity — the Description Formula requires action + input + output + trigger conditions for automatic activation.
+
+Skills are architecturally incapable of activating automatically and always require explicit invocation by the user.
+
+The skill's name conflicts with a built-in Claude Code feature, causing the agent to prioritize the built-in over the custom skill.
+
+Questions Left: 14
+A developer configures an MCP server for her project management tool. She exposes the task list as a Resource, the "create task" action as a Tool, and a "daily standup summary" template as a Prompt. A colleague accidentally exposes "create task" as a Resource instead. What is the most likely consequence of the misconfiguration?
+
+The AI agent creates tasks automatically without waiting for user approval, since Resources bypass the permission system.
+
+The agent can see the "create task" option but cannot execute it — Resources are read-only data exposed to the model.
+
+The MCP server crashes due to a type mismatch between the action schema and the Resource interface.
+
+The agent silently ignores the misconfigured item and proceeds without any task creation capability.
+
+Questions Left: 13
+A product manager needs to analyze 50 customer feedback documents and produce a summary report. She has access to both Claude Code (terminal) and Claude Cowork (desktop). Which interface is better suited and why?
+
+Cowork — document analysis and report generation are its strength; built-in document skills handle docx/pdf natively without terminal commands.
+
+Claude Code — the terminal provides faster batch file processing and more control over output formatting.
+
+Either works equally well since both interfaces use the same underlying AI model and agent SDK.
+
+Neither interface can handle 50 documents in a single workflow; she needs to split the work across multiple sessions regardless.
+
+Questions Left: 12
+A team's agent calls a documentation MCP server 50 times per day. Each call loads the full tool definition (~300 tokens) plus returns large response payloads (~15,000 tokens). They want to reduce token consumption while keeping the functionality. What approach achieves the best token savings?
+
+Reduce the number of documentation lookups from 50 to 10 per day by batching queries into fewer, larger requests.
+
+Use MCP Tool Search to defer tool definition loading (~85% savings on definitions only, not on response payloads).
+
+Cache MCP responses in a local file and have the agent read from cache instead of calling the server.
+
+Compile the MCP workflow into a skill — the skill runs code locally outside the context window, returning only filtered results (~97-98% savings).
+
+Questions Left: 11
+A hospital gives a new surgeon both a surgical manual (procedures, techniques, decision frameworks) and a fully equipped operating room (instruments, monitors, lighting). Without either component, the surgeon cannot operate effectively. What AI architecture principle does this illustrate?
+
+Agent Factory — the surgeon is a General Agent in the incubation phase, becoming specialized through operating room experience.
+
+The Three Roles Framework — the manual teaches, the surgeon practices, and they converge on optimal technique.
+
+Progressive disclosure — the surgeon learns to use instruments gradually, starting with simple tools before advancing to complex ones.
+
+Skills + MCP complementarity — skills provide expertise (the manual), MCP provides connectivity to tools (the operating room). Both are needed.
+
+Questions Left: 10
+A solo developer chooses the marketplace model for her specialized tax preparation agent, listing it alongside 10,000 other AI agents. She prices it at $29/month, expecting volume sales to drive revenue. What is the PRIMARY risk of this strategy?
+
+Discovery is brutally competitive in marketplaces — with 10,000 alternatives, her specialized agent may never surface. Direct vertical sales would better leverage her domain expertise advantage.
+
+The $29/month price point is too high for marketplace buyers, who typically expect free or near-free AI tools and resist monthly subscriptions.
+
+Tax preparation agents require professional liability insurance and comprehensive legal review processes that make solo development financially unviable at any meaningful scale.
+
+Marketplace platforms take 30-40% commission on each transaction, and $29/month becomes unsustainable once platform fees, hosting costs, and support overhead are factored in.
+
+Questions Left: 9
+A construction company gives all teams power drills to replace manual screwdrivers. Experienced carpenters use the drills to work faster with precision. Untrained workers strip screws, crack materials, and cause more damage than with hand tools. What AI development principle does this illustrate?
+
+Shadow mode — untrained workers should observe experienced users before operating drills themselves.
+
+The orchestrator mindset — carpenters should direct the drills rather than use them directly, delegating the physical work.
+
+AI amplification — power tools amplify both skill and carelessness; discipline matters more with powerful tools, not less.
+
+The 80/20 moat — 80% of drilling is commodity work that anyone can perform, while 20% requires expert technique.
+
+Questions Left: 8
+Two developers build AI-powered legal document analyzers. Developer A focuses on making the AI faster and cheaper. Developer B embeds her years of contract negotiation expertise into the agent's skills and decision frameworks. Which developer has a more sustainable competitive advantage?
+
+Developer A — speed and cost advantages compound faster than domain knowledge because technology improvements are exponential.
+
+Developer B — domain expertise encoded in skills is the 20% moat that competitors cannot easily replicate.
+
+Both equally — the underlying AI model provides the same core capability regardless of what is layered on top.
+
+Developer A — enterprise buyers prioritize total cost of ownership above all other factors when selecting AI solutions.
+
+Questions Left: 7
+A fintech startup deploys an AI trading agent directly into production with full autonomous trading permissions. The CEO argues: "Our backtesting shows 95% accuracy. Shadow mode would just delay our competitive advantage." What is the PRIMARY weakness of this approach?
+
+Backtesting doesn't capture real-world conditions — market dynamics, latency, and edge cases differ from historical data. Shadow mode would reveal these gaps before real money is at risk.
+
+The team needs regulatory approval for autonomous trading before any deployment, which the CEO appears to have skipped in the rush to market.
+
+A 95% accuracy rate means 5% of all trades will lose money, and the cumulative losses from that 5% could exceed all gains from the 95%.
+
+The CEO made a unilateral decision without consulting the engineering team or conducting a risk assessment, violating sound organizational governance and decision-making practices.
+
+Questions Left: 6
+A team of five developers shares a codebase. Each developer repeatedly explains the same project conventions to their AI assistant at the start of every session: "We use camelCase, Jest for tests, and Prisma for database access." What is the most effective solution?
+
+Create a shared Slack channel where developers post their conventions so the AI can reference it when asked.
+
+Each developer saves their own prompt template on their desktop and pastes it at the start of every session.
+
+Distribute the conventions as code comments throughout the codebase so the AI discovers them when reading files.
+
+Create a CLAUDE.md file in the project root with these conventions — it auto-loads at every session start for all team members.
+
+Questions Left: 5
+A law firm uses a rotating pool of paralegals to handle a complex, multi-week litigation case. Each paralegal works a single shift and has no memory of previous shifts. The case file is the only continuity mechanism. Which AI constraint does this workflow mirror, and what is the key mitigation?
+
+Probabilistic output — each paralegal interprets the case differently, leading to inconsistent work product across shifts.
+
+Statelessness — the case file serves as persistent external memory, compensating for each paralegal's lack of inter-shift memory.
+
+Context window limits — the case file is too large for any single paralegal to read completely during one shift.
+
+Non-determinism — the firm cannot predict which paralegal will be assigned to any given shift.
+
+Questions Left: 4
+Two junior developers receive the same feature request. Dev A writes detailed code herself, using AI only for autocompletion. Dev B writes a specification describing the feature's behavior, constraints, and success criteria, then delegates implementation to an AI agent. After five features, which developer likely has better outcomes and why?
+
+Dev B — specification-first delegation produces documented, validated features that compound in quality over time.
+
+Dev A — hands-on coding builds deeper understanding of the codebase, which pays off across multiple features.
+
+Both achieve similar outcomes since the same underlying AI model powers both autocompletion and full delegation.
+
+Dev A — autocompletion introduces fewer errors because the developer maintains direct control over every line of code written.
+
+Questions Left: 3
+A CTO mandates that all AI-assisted development must use Claude Code exclusively. She argues: "We invested six months training everyone on Claude Code. Standardizing on one tool reduces complexity and training costs." What is the PRIMARY weakness of this mandate?
+
+Claude Code's subscription pricing is significantly higher than the free tiers offered by Codex and Gemini CLI, making exclusive standardization unnecessarily expensive at enterprise scale for routine tasks.
+
+Different tools excel at different tasks — Claude Code for deep reasoning, Codex for parallel async delegation, Gemini CLI for large codebases. A single-tool mandate sacrifices complementary strengths that poly-agentic workflows exploit.
+
+Industry standards like MCP, AGENTS.md, and Agent Skills ensure switching between tools has low friction — the team's knowledge transfers across vendors, so the training investment argument overstates lock-in.
+
+Open source tools like Codex and Gemini CLI evolve faster through community contributions, so standardizing on a single proprietary tool risks falling behind on important features over time.
+
+
+Question 1
+Exam: General Agents Fundamentals Part 1
+
+A lead developer asks her AI to investigate a production bug, then write a fix, then update the documentation. She does all three in a single conversation. By the documentation step, the AI's context is cluttered with debugging logs, stack traces, and abandoned fix attempts. What architectural pattern would prevent this clutter?
+
+Ask the AI to ignore all previous messages when beginning each new task phase.
+
+Use the /clear command between each task to reset the entire conversation history.
+
+Delegate each task to a separate subagent — each starts with a fresh context window, preventing cross-task contamination.
+
+Upgrade to a model with a larger context window so all three tasks fit comfortably without crowding.
+
+Question 2
+Exam: General Agents Fundamentals Part 1
+
+A content team notices their AI assistant writes blog intros in a different style each time — sometimes formal, sometimes casual, sometimes with questions, sometimes with statistics. They want consistent brand voice. What is the root cause and the correct solution?
+
+Set the AI's temperature parameter to 0 to eliminate all output variation across every task.
+
+Non-determinism — encode the brand voice, style rules, and examples into a skill that constrains the AI's output to a consistent pattern.
+
+Use the exact same prompt every time and the output will eventually stabilize into a consistent pattern.
+
+Switch to a different AI model that is known to produce less variation in its outputs.
