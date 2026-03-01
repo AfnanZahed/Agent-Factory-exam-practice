@@ -413,6 +413,22 @@ h1 {
   padding-bottom: 5rem;
 }
 
+.review-panel {
+  margin-top: 1rem;
+}
+
+.review-panel.hidden + .controls__bottom .controls__buttons {
+  display: none;
+}
+
+.controls__buttons.hidden {
+  display: none;
+}
+
+button:hidden {
+  display: none !important;
+}
+
 .btn {
   border: 1px solid transparent;
   border-radius: 11px;

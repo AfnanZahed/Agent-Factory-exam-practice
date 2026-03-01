@@ -157,6 +157,80 @@
 
           <div id="reviewList" class="review-list"></div>
         </section>
+
+        <section class="controls controls--bottom" aria-label="Navigation and actions">
+          <div class="controls__top">
+            <button id="backToLandingBtn" class="btn btn--ghost" type="button">Back to Chapters</button>
+            <div class="controls__progress">
+              <div class="progress-labels">
+                <p id="chapterProgressText">Progress: 0%</p>
+                <p id="chapterSubmissionState">Not submitted</p>
+              </div>
+              <div
+                class="progress-track"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                id="chapterProgressBar"
+              >
+                <div id="chapterProgressFill" class="progress-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="controls__bottom">
+            <p class="question-index" id="questionIndexText">Q 1 of 1</p>
+
+            <div class="controls__buttons">
+              <button id="prevQuestionBtn" class="btn btn--ghost" type="button">Previous</button>
+              <button id="nextQuestionBtn" class="btn btn--ghost" type="button">Next</button>
+              <button id="submitChapterBtn" class="btn btn--primary" type="button">Submit Chapter</button>
+              <button id="resetChapterBtn" class="btn btn--danger" type="button">Reset Chapter</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>          <header class="review-panel__header">
+            <h2 class="section-title">Post-Submit Review</h2>
+            <p class="review-subtitle">Correctness and rationales are shown only after chapter submission.</p>
+          </header>
+
+          <div class="review-metrics" aria-label="Score summary">
+            <article class="metric-card">
+              <p class="metric-label">Score</p>
+              <p class="metric-value" id="scoreValue">0 / 0</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Percent</p>
+              <p class="metric-value" id="percentValue">0%</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Correct</p>
+              <p class="metric-value" id="correctCount">0</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Incorrect</p>
+              <p class="metric-value" id="incorrectCount">0</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Unanswered</p>
+              <p class="metric-value" id="unansweredCount">0</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Attempted</p>
+              <p class="metric-value" id="attemptedCount">0</p>
+            </article>
+          </div>
+
+          <div id="reviewFilters" class="review-filters" role="tablist" aria-label="Review filters">
+            <button type="button" class="filter-btn is-active" data-filter="all">Back to Quiz</button>
+            <button type="button" class="filter-btn" data-filter="incorrect">Incorrect</button>
+            <button type="button" class="filter-btn" data-filter="unanswered">Unanswered</button>
+          </div>
+
+          <div id="reviewList" class="review-list"></div>
+        </section>
       </section>
     </main>
 
