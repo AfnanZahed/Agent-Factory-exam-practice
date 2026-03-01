@@ -357,6 +357,13 @@ h1 {
   justify-content: flex-end;
 }
 
+.controls__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
 .controls__bottom {
   margin-top: 1rem;
   display: flex;
@@ -371,6 +378,16 @@ h1 {
   order: 1;
 }
 
+.controls--bottom {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.85rem 1rem 1rem;
+  background: linear-gradient(160deg, rgba(12, 16, 25, 0.92), rgba(8, 12, 19, 0.95));
+  border-top: 1px solid rgba(129, 151, 184, 0.35);
+}
+
 @media (max-width: 840px) {
   .controls__bottom {
     flex-direction: column;
@@ -380,6 +397,20 @@ h1 {
   .controls__buttons {
     justify-content: flex-start;
   }
+
+  .controls--bottom {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .controls--bottom {
+    padding: 1rem;
+  }
+}
+
+.content-grid {
+  padding-bottom: 5rem;
 }
 
 .btn {
